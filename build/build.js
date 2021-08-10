@@ -15,6 +15,8 @@ function build (builds) {
   let built = 0
   const total = builds.length
   const next = () => {
+    // 这就是multi entry????
+    // 串行
     buildEntry(builds[built])
       .then(() => {
         built++
@@ -82,6 +84,7 @@ function write (dest, code, zip) {
   })
 }
 
+// 这么说code.length以byte为单位?
 function getSize (code) {
   return (code.length / 1024).toFixed(2) + 'kb'
 }
@@ -90,6 +93,7 @@ function logError (e) {
   console.log(e)
 }
 
+// 我也是服了，我这种渣渣还是适合chalk
 function blue (str) {
   return '\x1b[1m\x1b[34m' + str + '\x1b[39m\x1b[22m'
 }
