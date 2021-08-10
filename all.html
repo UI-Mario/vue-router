@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>JS Bin</title>
+    <link rel="stylesheet" type="text/css" href="./css-custom-cursor.ico">
+    <style>
+      :root {
+        --c2: #607d8b;
+        --c3: #041e31;
+        --c4: #098a8a;
+        --nb: #0ff;
+        --ng: #0f0;
+      }
+      html,
+      body {
+        background: #cdcdcd;
+        /*cursor: url(https://davidwalsh.name/demo/css-custom-cursor.ico),auto;*/
+        cursor: url("./smirk.ico") 16 16,auto;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid red;
+        cursor: url("./css-custom-cursor.ico"),auto;
+      }
+      .item {
+        width: 100px;
+        height: 100px;
+        background: #cdcdcd;
+      }
+      .invisible-img {
+        width: 100px;
+        height: 100px;
+        visibility: hidden;
+        background: url("https://dlcdn.cdollar.cn/yinhua_meet/re_red3.png")
+          no-repeat center/100%;
+      }
+      .clip-test {
+        font-size: 9rem;
+        width: 400px;
+        font-family: Helvetica;
+        letter-spacing: -0.3rem;
+        /*chrome必须得加个-webkit-，所以这堆属性没法一起放进background简写*/
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        background-image: url("https://images.unsplash.com/photo-1568279898331-4870e84677dd?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGxpbmVhcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60");
+        background-position: center center;
+        clip-path: ellipse(100px 100px at 0% 50%);
+        animation: SpotLight 5s infinite;
+      }
+      h1 {
+        font-size: 9rem;
+        font-family: Helvetica;
+        letter-spacing: -0.3rem;
+        color: #333;
+        position: relative;
+      }
+
+      h1::after {
+        content: attr(dot-light);
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: transparent;
+        clip-path: ellipse(100px 100px at 0% 50%);
+        animation: SpotLight 5s infinite;
+        background-image: url("https://images.unsplash.com/photo-1568279898331-4870e84677dd?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGxpbmVhcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60");
+        background-size: 150%;
+        background-position: center center;
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      @keyframes SpotLight {
+        0% {
+          clip-path: ellipse(100px 100px at 0% 50%);
+        }
+
+        50% {
+          clip-path: ellipse(100px 100px at 100% 50%);
+        }
+
+        100% {
+          clip-path: ellipse(100px 100px at 0% 50%);
+        }
+      }
+      .ccc {
+        height: 200px;
+        background: lightcoral;
+        display: grid;
+        place-items: center;
+      }
+      h4 {
+        width: -webkit-min-content;
+        width: -moz-min-content;
+        width: min-content;
+      }
+      canvas {
+        width: 592px;
+        height: 353px;
+        border: 1px solid white;
+      }
+      .card {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 600;
+        background: #ffe4c4;
+        transform-style: preserve-3d;
+        transition: transform 1s ease-in-out;
+      }
+      .card-face {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        backface-visibility: hidden;
+        font-size: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .back {
+        transform: rotateY(180deg);
+      }
+      .card:hover {
+        transform: rotateY(180deg);
+      }
+
+      .thanks {
+        font-size: 15vmin;
+        text-align: center;
+        color: #fff;
+        /*
+        * offset-x, offset-y, blur-radius, color
+        * 这里相当于声明了很多个阴影，以逗号为间隔，元素对应上方注释
+        * 而所谓的发光效果，就是很多个blur-radius逐渐增大来实现的
+        * 但是注意文字本身color
+        */
+        text-shadow: 0 0 0.5vmin #fff, 0 0 1vmin #fff, 0 0 2vmin #fff, 0 0 4vmin var(--ng), 0 0 8vmin var(--ng), 0 0 9vmin var(--ng), 0 0 10vmin var(--ng), 0 0 15vmin var(--ng);
+      }
+
+      .book {
+        width: 100px;
+        height: 150px;
+        margin-left: 100px;
+        position: relative;
+        perspective: 500px;
+      }
+      .cover,
+      .content {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        font-size: 28px;
+        font-family: Helvetica;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--nb);
+        transform-style: preserve-3d;
+        transform-origin: left;
+        transition-duration: 1s;
+      }
+      .content {
+        background: var(--c4);
+      }
+      .cover {
+        background: var(--c2);
+      }
+      .book:hover .cover {
+        transform: rotateY(-110deg);
+      }
+    </style>
+    <script type="text/javascript">
+      window.onload = () => {
+        Notification.requestPermission();
+        new Notification("Hey");
+
+        document.querySelector("#button").addEventListener("click", (e) => {
+          debugger;
+          e.target.insertAdjacentHTML("afterend", '<div id="two">two</div>');
+        });
+      };
+      const image = new Image();
+      image.src = "https://s3.bmp.ovh/imgs/2021/08/e55fc0cf95bd2d2f.jpg";
+      image.crossOrigin = "Anonymous";
+      image.addEventListener("load", function () {
+        const canvas = document.getElementById("canvas1");
+        const ctx = canvas.getContext("2d");
+        canvas.width = 592;
+        canvas.height = 353;
+
+        let particlesArray = [];
+        const numberOfParticles = 5000;
+        const detail = 1;
+
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        console.log(pixels)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let grid = [];
+        for (let y = 0; y < canvas.height; y += detail) {
+          let row = [];
+          for (let x = 0; x < canvas.width; x += detail) {
+            const red = pixels.data[y * 4 * pixels.width + x * 4];
+            const green = pixels.data[y * 4 * pixels.width + (x * 4 + 1)];
+            const blue = pixels.data[y * 4 * pixels.width + (x * 4 + 2)];
+            const color = "rgb(" + red + "," + green + "," + blue + ")";
+            const brightness = calculateBrightness(red, green, blue) / 100;
+            const cell = [(cellColor = color), (cellBrightness = brightness)];
+            row.push(cell);
+          }
+          grid.push(row);
+        }
+        console.log(grid);
+        class Particle {
+          constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height;
+            //this.prevX = this.x;
+            this.speed = 0;
+            this.velocity = Math.random() * 0.4;
+            this.size = Math.random() * 2 + 0.5;
+            this.position1 = Math.floor(this.y / detail);
+            this.position2 = Math.floor(this.x / detail);
+            this.angle = 0;
+          }
+          update() {
+            this.position1 = Math.floor(this.y / detail);
+            this.position2 = Math.floor(this.x / detail);
+            if (grid[this.position1]) {
+              if (grid[this.position1][this.position2]) {
+                this.speed = grid[this.position1][this.position2][1];
+              }
+            }
+            this.angle += this.speed / 20;
+            let movement = 2.5 - this.speed + this.velocity;
+            this.y -= movement + Math.cos(this.angle) * 2;
+            this.x += Math.cos(this.angle) * 2;
+            if (this.y <= 0) {
+              this.y = canvas.height;
+              this.x = Math.random() * canvas.width;
+            }
+            //console.log(this.x += movement)
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.fillStyle = "black";
+            if (this.y > canvas.height - this.size * 6) ctx.globalAlpha = 0;
+            if (grid[this.position1]) {
+              if (grid[this.position1][this.position2]) {
+                ctx.fillStyle = grid[this.position1][this.position2][0];
+              }
+            } else {
+              ctx.fillStyle = "white";
+            }
+            ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+            ctx.fill();
+          }
+        }
+
+        function init() {
+          for (let i = 0; i < numberOfParticles; i++) {
+            particlesArray.push(new Particle());
+          }
+        }
+        init();
+
+        function animate() {
+          ctx.globalAlpha = 0.05;
+          ctx.fillStyle = "rgb(0, 0, 0)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.globalAlpha = 0.2;
+          for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            ctx.globalAlpha = particlesArray[i].speed * 0.3;
+            particlesArray[i].draw();
+          }
+          requestAnimationFrame(animate);
+        }
+        // animate();
+
+        function calculateBrightness(red, green, blue) {
+          return Math.sqrt(
+            red * red * 0.299 + green * green * 0.587 + blue * blue * 0.114
+          );
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="box"></div>
+      <div class="item"></div>
+      <button id="button" type="reset">111</button>
+      <div class="invisible-img"></div>
+      <input type="color" value="#0000ff" />
+      <h1 dot-light="LIZHENWEN">LIZHENWEN</h1>
+      <div class="clip-test">333ttt</div>
+      <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="MyPath" d="M 20 40 Q 260 240 400 500" />
+        </defs>
+        <use xlink:href="#MyPath" fill="none" stroke="#59fa81" />
+        <text font-family="Courier New" font-size="42.5">
+          <textPath xlink:href="#MyPath">Wow such a nice SVG tut</textPath>
+        </text>
+      </svg>
+      <div class="ccc">
+        <div style="height: 20px; width: 20px; background: #fff"></div>
+      </div>
+      <h4>multi color text with css</h4>
+      <canvas id="canvas1"></canvas>
+      <div class="card">
+        <div class="card-face front">A</div>
+        <div class="card-face back">B</div>
+      </div>
+      <div class="thanks">Thanks  YYYY  KKK         YYYY</div>
+      <div class="book">
+        <div class="content">SB</div>
+        <div class="cover">Livio</div>
+      </div>
+  </body>
+</html>
