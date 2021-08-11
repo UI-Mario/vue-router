@@ -34,6 +34,8 @@ export function createRoute (
   return Object.freeze(route)
 }
 
+// 出现了deepclone，但由于业务场景限制，所以没考虑很多其他因素
+// Date, Symbol, loop
 function clone (value) {
   if (Array.isArray(value)) {
     return value.map(clone)

@@ -19,12 +19,21 @@ export function runQueue (queue: Array<?NavigationGuard>, fn: Function, cb: Func
 }
 
 // 考虑下reduce的版本
-// emm，这种异步咋搞
+// emm，这种异步咋搞，不需要把上一个方法的返回值当作下一个的入参，但是要按顺序
+// 就只能对方法再封装一下了，好像也不用reduce了
 export const reduceQueue = (queue: Array<?NavigationGuard>, fn: Function, cb: Function) => {
   if (!queue) return
   if (queue.length < 2) {
     fn(queue[0], cb)
   }
 
+  const newFn = (args) => new Promise((resolve, reject) => {
+    fn(args, () => {
+      resolve()
+    })
+  })
 
+  queue.reduce(async(accumulator, current) => {
+    await newFn(current)
+  })
 } 

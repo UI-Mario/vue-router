@@ -1,5 +1,6 @@
 /* @flow */
 
+// 好烦呀，scroll是干啥的
 import type Router from '../index'
 import { assert } from './warn'
 import { getStateKey, setStateKey } from './state-key'
@@ -17,6 +18,7 @@ export function setupScroll () {
   // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives: replaced location.origin with
   // window.location.protocol + '//' + window.location.host
   // location.host contains the port and location.hostname doesn't
+  // window.location.host也包括端口
   const protocolAndPath = window.location.protocol + '//' + window.location.host
   const absolutePath = window.location.href.replace(protocolAndPath, '')
   // preserve existing history state as it could be overriden by the user

@@ -147,6 +147,8 @@ function replaceHash (path) {
   if (supportsPushState) {
     replaceState(getUrl(path))
   } else {
+    // replace方法本身是会重新请求资源的
+    // 但是只修改锚点就不会，修改search也会重新请求资源
     window.location.replace(getUrl(path))
   }
 }
